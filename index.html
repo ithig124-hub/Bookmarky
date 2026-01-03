@@ -22,6 +22,28 @@
             </div>
         </header>
 
+        <!-- Stats Bar -->
+        <div class="stats-bar" id="statsBar">
+            <div class="stats-content">
+                <div class="stat-item">
+                    <div class="stat-value" id="statTotal">0</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="statUnread">0</div>
+                    <div class="stat-label">Unread</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="statRead">0</div>
+                    <div class="stat-label">Read</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="statProgress">0%</div>
+                    <div class="stat-label">Progress</div>
+                </div>
+            </div>
+        </div>
+
         <!-- Main Content -->
         <main class="main">
             <!-- Actions Bar -->
@@ -44,6 +66,7 @@
                         <button class="filter-btn active" data-filter="all">All</button>
                         <button class="filter-btn" data-filter="unread">Unread</button>
                         <button class="filter-btn" data-filter="read">Read</button>
+                        <button class="filter-btn" data-filter="favorites">Favorites</button>
                     </div>
                     <button class="add-btn" id="addArticleBtn">
                         <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -52,7 +75,28 @@
                         </svg>
                         Add Article
                     </button>
+                    <button class="icon-btn" id="menuBtn" title="More options">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="1"></circle>
+                            <circle cx="12" cy="5" r="1"></circle>
+                            <circle cx="12" cy="19" r="1"></circle>
+                        </svg>
+                    </button>
                 </div>
+            </div>
+
+            <!-- Sort and Tag Cloud Bar -->
+            <div class="controls-bar">
+                <div class="sort-container">
+                    <label for="sortSelect">Sort by:</label>
+                    <select id="sortSelect" class="sort-select">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="title">Title A-Z</option>
+                        <option value="title-desc">Title Z-A</option>
+                    </select>
+                </div>
+                <div id="tagCloudContainer" class="tag-cloud-container"></div>
             </div>
 
             <!-- Articles Container -->
@@ -96,6 +140,87 @@
             </form>
         </div>
     </div>
+
+    <!-- Menu Modal -->
+    <div id="menuModal" class="modal">
+        <div class="modal-content menu-modal-content">
+            <div class="modal-header">
+                <h2>More Options</h2>
+                <button class="modal-close" id="closeMenuModal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="menu-options">
+                <button class="menu-option" id="exportBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>Export Data</span>
+                </button>
+                <button class="menu-option" id="importBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <span>Import Data</span>
+                </button>
+                <button class="menu-option" id="clearReadBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                    <span>Clear Read Articles</span>
+                </button>
+                <button class="menu-option" id="bookmarkletBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <span>Quick Save Bookmarklet</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bookmarklet Instructions Modal -->
+    <div id="bookmarkletModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Quick Save from Any Website</h2>
+                <button class="modal-close" id="closeBookmarkletModal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="bookmarklet-content">
+                <p class="bookmarklet-intro">Drag this button to your bookmarks bar to save articles with one click while browsing:</p>
+                <div class="bookmarklet-button-container">
+                    <a href="javascript:(function(){var t=document.title||'Untitled',u=window.location.href,d=new Date().toISOString(),a={id:Date.now().toString(),title:t,url:u,tags:[],notes:'',isRead:false,isFavorite:false,createdAt:d,updatedAt:d},s=localStorage.getItem('bookmarky_articles'),l=s?JSON.parse(s):[];l.unshift(a);localStorage.setItem('bookmarky_articles',JSON.stringify(l));alert('✓ Saved to Bookmarky: '+t);})();" class="bookmarklet-btn" onclick="return false;">📌 Save to Bookmarky</a>
+                </div>
+                <div class="bookmarklet-instructions">
+                    <h3>How to use:</h3>
+                    <ol>
+                        <li>Drag the gold button above to your browser's bookmarks bar</li>
+                        <li>When reading an article, click the bookmark</li>
+                        <li>The page will be instantly saved to Bookmarky!</li>
+                    </ol>
+                    <p class="bookmarklet-note">💡 Tip: Works on any website - news, blogs, documentation, etc.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file input for import -->
+    <input type="file" id="importFileInput" accept=".json" style="display: none;">
 
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
